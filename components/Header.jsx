@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { useStoreUser } from "@/hooks/use-store-user";
+import { useStoreUser } from "../hooks/use-store-user";
 import { BarLoader } from "react-spinners";
 import { Authenticated, Unauthenticated } from "convex/react";
 import Image from "next/image";
@@ -32,13 +32,13 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-6">
             <Link
               href="#features"
-              className="text-sm font-medium hover:text-green-600 transition"
+              className="text-sm font-medium hover:text-blue-600 transition"
             >
               Features
             </Link>
             <Link
               href="#how-it-works"
-              className="text-sm font-medium hover:text-green-600 transition"
+              className="text-sm font-medium hover:text-blue-600 transition"
             >
               How It Works
             </Link>
@@ -50,7 +50,7 @@ export default function Header() {
             <Link href="/dashboard">
               <Button
                 variant="outline"
-                className="hidden md:inline-flex items-center gap-2 hover:text-green-600 hover:border-green-600 transition"
+                className="hidden md:inline-flex items-center gap-2 hover:text-blue-600 hover:border-blue-600 transition"
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Dashboard
@@ -68,7 +68,7 @@ export default function Header() {
                   userPreviewMainIdentifier: "font-semibold",
                 },
               }}
-              afterSignOutUrl="/"
+            
             />
           </Authenticated>
 
@@ -78,7 +78,7 @@ export default function Header() {
             </SignInButton>
 
             <SignUpButton>
-              <Button className="bg-green-600 hover:bg-green-700 border-none">
+              <Button className="bg-blue-600 hover:bg-blue-700 border-none">
                 Get Started
               </Button>
             </SignUpButton>
