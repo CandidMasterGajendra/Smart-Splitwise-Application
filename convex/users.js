@@ -10,6 +10,13 @@ export const store = mutation({
       throw new Error("Called storeUser without authentication present");
     }
 
+    // Derive a reliable display name. Clerk/other providers may omit `name`.
+    const derivedName =
+      identity.name ??
+      (([identity.givenName, identity.familyName].filter(Boolean).join(" ")) || undefined) ??
+      (((identity.email ? identity.email.split("@")[0] : "")) || undefined) ??
+      "Anonymous";
+
     // Check if we've already stored this identity before.
     // Note: If you don't want to define an index right away, you can use
     // ctx.db.query("users")
@@ -23,14 +30,14 @@ export const store = mutation({
       .unique();
     if (user !== null) {
       // If we've seen this identity before but the name has changed, patch the value.
-      if (user.name !== identity.name) {
-        await ctx.db.patch(user._id, { name: identity.name });
+      if (user.name !== derivedName) {
+        await ctx.db.patch(user._id, { name: derivedName });
       }
       return user._id;
     }
     // If it's a new identity, create a new `User`.
     return await ctx.db.insert("users", {
-      name: identity.name ?? "Anonymous",
+      name: derivedName,
       tokenIdentifier: identity.tokenIdentifier,
       email: identity.email,
       imageUrl: identity.pictureUrl,
